@@ -1,5 +1,13 @@
 import { useDataStore } from '../stores/dataStore';
 import { formatNumber, formatPercent } from '../utils/formatters';
+import { Camera, Building2, Target, AlertTriangle } from 'lucide-react';
+
+const KPI_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
+  'mt-blue': Camera,
+  'mt-green': Building2,
+  'vigia-amber': Target,
+  'vigia-red': AlertTriangle,
+};
 
 export function KPIBar() {
   const { kpis, isLoading, lastFetch } = useDataStore();
@@ -31,7 +39,7 @@ export function KPIBar() {
       value: `${formatNumber(kpis.camerasActive)} / ${formatNumber(kpis.camerasTotal)}`,
       subValue: `${formatPercent(kpis.camerasAvailability)} disponibilidade`,
       subClass: availabilityClass,
-      icon: '📷',
+      iconName: 'mt-blue',
       color: 'mt-blue',
       gradient: 'from-mt-blue-500 to-mt-blue-600',
     },
@@ -42,7 +50,7 @@ export function KPIBar() {
         (kpis.municipalitiesAttended / kpis.municipalitiesTotal) * 100,
       )} cobertura`,
       subClass: 'text-mt-green-600 bg-mt-green-50 border-mt-green-100',
-      icon: '🏙️',
+      iconName: 'mt-green',
       color: 'mt-green',
       gradient: 'from-mt-green-500 to-mt-green-600',
     },
@@ -51,7 +59,7 @@ export function KPIBar() {
       value: `${formatNumber(kpis.actionsMonth)} / ${formatNumber(kpis.actionsYear)}`,
       subValue: 'Mês atual / Acumulado',
       subClass: 'text-mt-blue-600 bg-mt-blue-50 border-mt-blue-100',
-      icon: '🎯',
+      iconName: 'vigia-amber',
       color: 'vigia-amber',
       gradient: 'from-vigia-amber-500 to-vigia-amber-600',
     },
@@ -63,7 +71,7 @@ export function KPIBar() {
         kpis.camerasOfflineNow > 0
           ? 'text-vigia-red-600 font-semibold bg-vigia-red-50 border-vigia-red-100'
           : 'text-mt-green-600 bg-mt-green-50 border-mt-green-100',
-      icon: '⚠️',
+      iconName: 'vigia-red',
       color: 'vigia-red',
       alert: kpis.camerasOfflineNow > 0,
       gradient: 'from-vigia-red-500 to-vigia-red-600',
@@ -74,48 +82,48 @@ export function KPIBar() {
     <div className="bg-white border-b border-gray-100">
       <div className="max-w-full mx-auto px-4 md:px-6 py-3 md:py-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {kpiItems.map((item, index) => (
-            <div
-              key={index}
-              className={`relative p-3 rounded-xl border transition-all duration-300 ${
-                item.alert
-                  ? 'animate-pulse ring-2 ring-vigia-red-300 border-vigia-red-200 bg-vigia-red-50'
-                  : `border-${item.color}-100 bg-${item.color}-50`
-              }`}
-            >
-              <div className="absolute top-3 right-3">
-                <span className="text-2xl" aria-hidden="true">{item.icon}</span>
-              </div>
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-[10px] md:text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
-                    {item.label}
-                  </p>
-                  <p className="text-2xl md:text-3xl font-bold text-gray-900 tabular-nums leading-tight">
-                    {item.value}
-                  </p>
-                  <p className={`text-xs font-medium mt-1 ${item.subClass}`}>
-                    {item.subValue}
-                  </p>
+          {kpiItems.map((item, index) => {
+            const Icon = KPI_ICONS[item.iconName];
+            return (
+              <div
+                key={index}
+                className={`relative p-3 rounded-xl border transition-all duration-300 ${
+                  item.alert
+                    ? 'animate-pulse ring-2 ring-vigia-red-300 border-vigia-red-200 bg-vigia-red-50'
+                    : `border-${item.color}-100 bg-${item.color}-50`
+                }`}
+              >
+                <div className="absolute top-3 right-3 w-8 h-8 rounded-lg flex items-center justify-center opacity-60 bg-white/50">
+                  <Icon size={18} />
                 </div>
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center opacity-60">
-                  <span className="text-[10px]">{item.icon}</span>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-[10px] md:text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
+                      {item.label}
+                    </p>
+                    <p className="text-2xl md:text-3xl font-bold text-gray-900 tabular-nums leading-tight">
+                      {item.value}
+                    </p>
+                    <p className={`text-xs font-medium mt-1 ${item.subClass}`}>
+                      {item.subValue}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="mt-3 flex items-center justify-between text-[10px] md:text-xs text-gray-500">
-          <span className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-mt-green-500 animate-pulse" />
+          <span className="flex items-center gap-1 animate-pulse">
+            <span className="w-1.5 h-1.5 rounded-full bg-mt-green-500" />
             Atualizado{' '}
             {lastFetch
               ? new Date(lastFetch).toLocaleTimeString('pt-BR')
               : '—'}
           </span>
-          <span className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-mt-green-500 animate-pulse" />
+          <span className="flex items-center gap-1 animate-pulse">
+            <span className="w-1.5 h-1.5 rounded-full bg-mt-green-500" />
             Auto-refresh ativo
           </span>
         </div>

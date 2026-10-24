@@ -4,6 +4,7 @@ import { useAppStore } from '../stores/appStore';
 import { formatNumber, getActionTypeIcon } from '../utils/formatters';
 import * as echarts from 'echarts';
 import { useRef, useEffect } from 'react';
+import { BarChart3, TrendingUp, Trophy, Star, Activity } from 'lucide-react';
 
 const TYPE_LABELS: Record<string, string> = {
   veiculo_recuperado: 'Veículos Recuperados',
@@ -21,6 +22,13 @@ const TYPE_COLORS: Record<string, string> = {
   ocorrencia_elucidada: '#d97706',
 };
 
+const TAB_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
+  counters: BarChart3,
+  evolution: TrendingUp,
+  ranking: Trophy,
+  highlighted: Star,
+};
+
 export function ActionsPanel() {
   const { actionStats } = useDataStore();
   const { viewMode } = useAppStore();
@@ -36,7 +44,7 @@ export function ActionsPanel() {
           <span className="text-[10px] text-gray-400">Modo Público</span>
         </div>
         <div className="text-center py-12 text-gray-400">
-          <div className="text-6xl mb-3">📊</div>
+          <Activity className="w-12 h-12 text-gray-300 mb-3 opacity-50" />
           <p className="font-medium text-gray-700">Estatísticas detalhadas disponíveis no modo interno</p>
         </div>
       </div>
@@ -123,26 +131,29 @@ export function ActionsPanel() {
       <div className="border-b border-gray-100 px-4">
         <nav className="flex gap-0.5 pb-3" role="tablist" aria-label="Abas do painel de ações">
           {[
-            { id: 'counters', label: 'Contadores', icon: '📊' },
-            { id: 'evolution', label: 'Evolução Mensal', icon: '📈' },
-            { id: 'ranking', label: 'Ranking Municípios', icon: '🏆' },
-            { id: 'highlighted', label: 'Caso em Destaque', icon: '⭐' },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              role="tab"
-              aria-selected={activeTab === tab.id}
-              onClick={() => setActiveTab(tab.id as typeof activeTab)}
-              className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                activeTab === tab.id
-                  ? 'bg-mt-blue-600 text-white shadow-sm'
-                  : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
-              }`}
-            >
-              <span aria-hidden="true">{tab.icon}</span>
-              <span>{tab.label}</span>
-            </button>
-          ))}
+            { id: 'counters', label: 'Contadores' },
+            { id: 'evolution', label: 'Evolução Mensal' },
+            { id: 'ranking', label: 'Ranking Municípios' },
+            { id: 'highlighted', label: 'Caso em Destaque' },
+          ].map((tab) => {
+            const Icon = TAB_ICONS[tab.id];
+            return (
+              <button
+                key={tab.id}
+                role="tab"
+                aria-selected={activeTab === tab.id}
+                onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === tab.id
+                    ? 'bg-mt-blue-600 text-white shadow-sm'
+                    : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
+                }`}
+              >
+                <Icon size={16} />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
         </nav>
       </div>
 
@@ -184,7 +195,8 @@ export function ActionsPanel() {
 
             <div className="mt-4 bg-mt-blue-50 border border-mt-blue-100 rounded-xl p-4">
               <h3 className="font-bold text-mt-blue-800 mb-2 flex items-center gap-2">
-                <span>🎯</span> Total de Ações Apoiadas pelo Vigia Mais
+                <Star className="w-5 h-5 text-mt-blue-600" />
+                Total de Ações Apoiadas pelo Vigia Mais
               </h3>
               <p className="text-4xl font-bold text-mt-blue-900 tabular-nums">{formatNumber(totalActions)}</p>
               <p className="text-[10px] text-mt-blue-600 mt-1">Desde o início do programa</p>
@@ -238,7 +250,9 @@ export function ActionsPanel() {
             <div className="bg-gradient-to-r from-vigia-amber-50 to-vigia-amber-100 border-2 border-vigia-amber-200 rounded-xl p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <span className="text-4xl" aria-hidden="true">{getActionTypeIcon(actionStats.highlightedCase.type)}</span>
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center text-3xl" style={{ backgroundColor: 'rgba(217, 119, 6, 0.1)', color: '#d97706' }}>
+                    {getActionTypeIcon(actionStats.highlightedCase.type)}
+                  </div>
                   <div>
                     <p className="text-[10px] text-vigia-amber-700 font-medium uppercase tracking-wide">Caso em Destaque</p>
                     <p className="text-xl font-bold text-vigia-amber-900">{actionStats.highlightedCase.typeLabel}</p>
@@ -282,7 +296,7 @@ export function ActionsPanel() {
 
         {activeTab === 'highlighted' && !actionStats.highlightedCase && (
           <div className="flex flex-col items-center justify-center py-12 text-gray-400">
-            <div className="text-6xl mb-3">⭐</div>
+            <Star className="w-12 h-12 text-gray-300 mb-3 opacity-50" />
             <p className="font-medium text-gray-700">Nenhum caso em destaque no momento</p>
           </div>
         )}

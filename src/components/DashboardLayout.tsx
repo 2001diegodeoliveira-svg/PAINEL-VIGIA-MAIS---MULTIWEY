@@ -12,10 +12,11 @@ import { ActionsPanel } from './ActionsPanel';
 import { RankingPanel } from './RankingPanel';
 import { ErrorBanner } from './ErrorBanner';
 import { SearchFilter } from './SearchFilter';
+import { Maximize2, Minimize2 } from 'lucide-react';
 
 export function DashboardLayout() {
   const { fetchData, startAutoRefresh } = useDataStore();
-  const { isPresentationMode, screenMode, viewMode } = useAppStore();
+  const { isPresentationMode, screenMode, viewMode, isFullscreen, toggleFullscreen } = useAppStore();
 
   useAutoRefresh(true, 30000);
   usePresentationMode();
@@ -162,11 +163,11 @@ export function DashboardLayout() {
 
         <div className="absolute top-4 right-4 z-40 flex flex-col gap-2">
           <button
-            onClick={() => useAppStore.getState().toggleFullscreen()}
+            onClick={() => toggleFullscreen()}
             className="p-2 bg-white/90 backdrop-blur border border-gray-200 rounded-lg text-gray-600 hover:bg-white hover:text-gray-900 shadow-sm transition-all"
-            aria-label="Alternar tela cheia"
+            aria-label={isFullscreen ? 'Sair tela cheia' : 'Tela cheia'}
           >
-            ↰
+            {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
           </button>
         </div>
       </main>

@@ -2,6 +2,7 @@ import { useCameraRotation } from '../hooks/useCameraRotation';
 import { useDataStore } from '../stores/dataStore';
 import { useAppStore } from '../stores/appStore';
 import { formatRelativeTime, getStatusColor, getStatusLabel } from '../utils/formatters';
+import { Camera as CameraIcon, Lock, EyeOff, Play } from 'lucide-react';
 import type { Camera } from '../types';
 
 function CameraTile({ camera, isHighlighted, onClick }: { camera: Camera; isHighlighted?: boolean; onClick?: () => void }) {
@@ -40,7 +41,7 @@ function CameraTile({ camera, isHighlighted, onClick }: { camera: Camera; isHigh
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
-            <span className="text-6xl opacity-40">📷</span>
+            <CameraIcon className="w-16 h-16 text-gray-600 group-hover:text-gray-400 transition-colors" />
           </div>
         )}
 
@@ -68,14 +69,14 @@ function CameraTile({ camera, isHighlighted, onClick }: { camera: Camera; isHigh
       <div className="p-3 bg-white border-t border-gray-100">
         <p className="font-semibold text-gray-900 truncate">{camera.name}</p>
         <p className="text-[10px] text-gray-500 flex items-center gap-1">
-          <span>📍</span> {camera.municipality}
+          <span className="text-[12px]">📍</span> {camera.municipality}
         </p>
         <p className="text-[10px] text-gray-400 flex items-center gap-1 mt-1">
-          <span>🕐</span> {formatRelativeTime(camera.lastSeen)}
+          <span className="text-[12px]">🕐</span> {formatRelativeTime(camera.lastSeen)}
         </p>
         {camera.type === 'lpr' && (
           <p className="text-[10px] text-purple-600 flex items-center gap-1 mt-1 font-medium">
-            <span>📋</span> Leitura de Placas Ativa
+            <span className="text-[12px]">📋</span> Leitura de Placas Ativa
           </p>
         )}
       </div>
@@ -100,13 +101,13 @@ export function CameraMosaic() {
       <div className="bg-white border border-gray-100 rounded-xl p-4 h-full overflow-y-auto shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">🔒</span>
+            <Lock className="w-5 h-5 text-gray-400" />
             <h2 className="text-lg font-bold text-gray-900">Câmeras (Modo Público)</h2>
           </div>
           <span className="text-[10px] text-gray-400">Transmissão restrita</span>
         </div>
         <div className="text-center py-12 text-gray-400">
-          <div className="text-6xl mb-3">🔒</div>
+          <EyeOff className="w-12 h-12 text-gray-300 mb-3 opacity-50" />
           <p className="font-medium text-gray-700">Acesso às câmeras ao vivo restrito a usuários internos</p>
           <p className="text-[10px] mt-1">Use o modo interno para visualizar o mosaico de câmeras</p>
         </div>
@@ -120,6 +121,7 @@ export function CameraMosaic() {
     <div className="bg-white border border-gray-100 rounded-xl shadow-sm h-full flex flex-col">
       <div className="flex items-center justify-between p-4 border-b border-gray-50 bg-gray-50/50">
         <div className="flex items-center gap-3">
+          <CameraIcon className="w-5 h-5 text-mt-blue-600" />
           <h2 className="text-lg font-bold text-gray-900">Câmeras Ao Vivo</h2>
           <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-mt-green-100 text-mt-green-700 border border-mt-green-200">
             <span className="w-1.5 h-1.5 rounded-full bg-mt-green-500 animate-pulse" />
@@ -161,7 +163,7 @@ export function CameraMosaic() {
 
         {displayCameras.length === 0 && (
           <div className="flex flex-col items-center justify-center py-12 text-gray-400">
-            <div className="text-6xl mb-3">📷</div>
+            <Play className="w-12 h-12 text-gray-300 mb-3 opacity-50" />
             <p className="font-medium text-gray-700">Nenhuma câmera online no momento</p>
           </div>
         )}

@@ -1,6 +1,7 @@
 import { useDataStore } from '../stores/dataStore';
 import { useAppStore } from '../stores/appStore';
 import { formatTime, getLPRRestrictionColor } from '../utils/formatters';
+import { AlertCircle, Wifi, Ticket } from 'lucide-react';
 import type { LPRAlert } from '../types';
 
 export function LPRAlertsPanel() {
@@ -9,13 +10,13 @@ export function LPRAlertsPanel() {
 
   if (viewMode === 'public') {
     return (
-      <div className="bg-white border-l border-gray-200 p-4 h-full overflow-y-auto">
+      <div className="bg-white border border-gray-100 rounded-xl p-4 h-full overflow-y-auto shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-gray-900">Alertas LPR</h2>
         </div>
-        <div className="text-center py-12 text-gray-500">
-          <div className="text-6xl mb-4">🔒</div>
-          <p className="font-medium">Alertas de leitura de placas disponíveis no modo interno</p>
+        <div className="text-center py-12 text-gray-400">
+          <Wifi className="w-12 h-12 text-gray-300 mb-3 opacity-50" />
+          <p className="font-medium text-gray-700">Alertas de leitura de placas disponíveis no modo interno</p>
         </div>
       </div>
     );
@@ -24,12 +25,13 @@ export function LPRAlertsPanel() {
   const activeAlerts = lprAlerts.filter((a: LPRAlert) => a.status === 'active');
 
   return (
-    <div className="bg-white border-l border-gray-200 h-full flex flex-col">
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
+    <div className="bg-white border border-gray-100 rounded-xl shadow-sm h-full flex flex-col">
+      <div className="flex items-center justify-between p-4 border-b border-gray-50 bg-gray-50/50">
         <div className="flex items-center gap-2">
+          <AlertCircle className="w-5 h-5 text-vigia-red-600" />
           <h2 className="text-lg font-bold text-gray-900">Alertas LPR (Leitura de Placas)</h2>
           {activeAlerts.length > 0 && (
-            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold animate-pulse">
+            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold animate-pulse border border-red-200">
               🚨 {activeAlerts.length} ativo(s)
             </span>
           )}
@@ -40,7 +42,8 @@ export function LPRAlertsPanel() {
         {activeAlerts.length > 0 && (
           <div className="mb-6">
             <h3 className="text-sm font-bold text-red-900 uppercase tracking-wide mb-3 flex items-center gap-2">
-              <span>🚨</span> Alertas Ativos - Atenção Imediata
+              <AlertCircle className="w-4 h-4 text-red-500" />
+              Alertas Ativos - Atenção Imediata
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {activeAlerts.map((alert: LPRAlert) => renderActiveAlertCard(alert))}
@@ -50,13 +53,14 @@ export function LPRAlertsPanel() {
 
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           <div className="border-b border-gray-200 bg-gray-50 px-4 py-2">
-            <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wide">
+            <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wide flex items-center gap-2">
+              <Ticket className="w-3 h-3 text-gray-400" />
               Histórico de Alertas LPR ({lprAlerts.length})
             </h3>
           </div>
-          <table className="w-full text-sm" role="table" aria-label="Alertas LPR">
+          <table className="w-full text-[10px]" role="table" aria-label="Alertas LPR">
             <thead>
-              <tr className="text-left text-xs text-gray-500 uppercase tracking-wider border-b border-gray-200">
+              <tr className="text-left text-[10px] text-gray-500 uppercase tracking-wider border-b border-gray-200">
                 <th className="px-4 py-3">Placa</th>
                 <th className="px-4 py-3">Câmera</th>
                 <th className="px-4 py-3">Município</th>
@@ -98,14 +102,15 @@ export function LPRAlertsPanel() {
   );
 }
 
+const RESTRICTION_LABELS: Record<string, string> = {
+  stolen: 'Roubo/Furto',
+  wanted: 'Procurado',
+  traffic: 'Trânsito',
+  other: 'Outro',
+};
+
 function renderActiveAlertCard(alert: LPRAlert) {
   const restrictionColor = getLPRRestrictionColor(alert.restrictionType);
-  const restrictionLabels: Record<string, string> = {
-    stolen: 'Roubo/Furto',
-    wanted: 'Procurado',
-    traffic: 'Trânsito',
-    other: 'Outro',
-  };
 
   return (
     <div className="bg-white rounded-xl border-2 border-red-200 shadow-sm p-4 relative overflow-hidden">
@@ -114,13 +119,13 @@ function renderActiveAlertCard(alert: LPRAlert) {
           ATIVO
         </span>
       </div>
-      <div className="text-3xl mb-2" aria-hidden="true">{alert.plate}</div>
-      <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">{alert.cameraName}</p>
+      <div className="text-3xl mb-2 font-mono" aria-hidden="true">{alert.plate}</div>
+      <p className="text-[10px] text-gray-500 uppercase tracking-wide mb-1">{alert.cameraName}</p>
       <p className="text-sm font-medium text-gray-700 mb-1">{alert.municipality}</p>
       <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${restrictionColor}`}>
-        {restrictionLabels[alert.restrictionType] || alert.restrictionType}
+        {RESTRICTION_LABELS[alert.restrictionType] || alert.restrictionType}
       </span>
-      <p className="text-xs text-gray-500 mt-2 font-mono">{formatTime(alert.timestamp)}</p>
+      <p className="text-[10px] text-gray-500 mt-2 font-mono">{formatTime(alert.timestamp)}</p>
     </div>
   );
 }

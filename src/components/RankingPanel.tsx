@@ -1,6 +1,7 @@
 import { useDataStore } from '../stores/dataStore';
 import { useAppStore } from '../stores/appStore';
 import { formatNumber, formatPercent, getStatusColor, getStatusLabel } from '../utils/formatters';
+import { Trophy } from 'lucide-react';
 
 export function RankingPanel() {
   const { municipalities, actionStats } = useDataStore();
@@ -8,13 +9,13 @@ export function RankingPanel() {
 
   if (viewMode === 'public') {
     return (
-      <div className="bg-white border-l border-gray-200 p-4 h-full overflow-y-auto">
+      <div className="bg-white border border-gray-100 rounded-xl p-4 h-full overflow-y-auto shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-gray-900">Ranking de Municípios</h2>
         </div>
-        <div className="text-center py-12 text-gray-500">
-          <div className="text-6xl mb-4">🏆</div>
-          <p className="font-medium">Ranking detalhado disponível no modo interno</p>
+        <div className="text-center py-12 text-gray-400">
+          <Trophy className="w-12 h-12 text-gray-300 mb-3 opacity-50" />
+          <p className="font-medium text-gray-700">Ranking detalhado disponível no modo interno</p>
         </div>
       </div>
     );
@@ -25,16 +26,18 @@ export function RankingPanel() {
   const totalActions = Object.values(actionStats.byType).reduce((acc, val) => acc + val, 0);
 
   return (
-    <div className="bg-white border-l border-gray-200 h-full flex flex-col">
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
-        <h2 className="text-lg font-bold text-gray-900">Ranking de Municípios</h2>
-        <span className="text-xs text-gray-500">Total de ações: {formatNumber(totalActions)}</span>
+    <div className="bg-white border border-gray-100 rounded-xl shadow-sm h-full flex flex-col">
+      <div className="flex items-center justify-between p-4 border-b border-gray-50 bg-gray-50/50">
+        <div className="flex items-center gap-2">
+          <Trophy className="w-5 h-5 text-vigia-amber-600" />
+          <h2 className="text-lg font-bold text-gray-900">Ranking de Municípios</h2>
+          <span className="text-xs text-gray-500">Total de ações: {formatNumber(totalActions)}</span>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4">
-        {/* Top municípios por ações */}
         <div className="mb-6">
-          <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-3">
+          <h3 className="text-[10px] font-bold text-gray-900 uppercase tracking-wide mb-3">
             Municípios com Mais Ações
           </h3>
           <div className="space-y-2">
@@ -48,12 +51,12 @@ export function RankingPanel() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900 truncate">{item.municipality}</p>
-                  <p className="text-xs text-gray-500">Código: {item.code}</p>
+                  <p className="text-[10px] text-gray-500">Código: {item.code}</p>
                 </div>
                 <div className="w-24">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-bold text-mt-blue-600">{formatNumber(item.count)}</span>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-[10px] text-gray-400">
                       {totalActions > 0 ? formatPercent((item.count / totalActions) * 100) : '0%'}
                     </span>
                   </div>
@@ -71,11 +74,10 @@ export function RankingPanel() {
           </div>
         </div>
 
-        {/* Tabela detalhada de municípios */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <table className="w-full text-sm" role="table" aria-label="Detalhamento por município">
+          <table className="w-full text-[10px]" role="table" aria-label="Detalhamento por município">
             <thead>
-              <tr className="text-left text-xs text-gray-500 uppercase tracking-wider border-b border-gray-200 bg-gray-50">
+              <tr className="text-left text-[10px] text-gray-500 uppercase tracking-wider border-b border-gray-200 bg-gray-50">
                 <th className="px-4 py-3">Município</th>
                 <th className="px-4 py-3 text-right">Câmeras Total</th>
                 <th className="px-4 py-3 text-right">Online</th>
@@ -101,7 +103,7 @@ export function RankingPanel() {
                     >
                       <td className="px-4 py-3">
                         <div className="font-medium text-gray-900">{muni.name}</div>
-                        <div className="text-xs text-gray-500">{muni.code}</div>
+                        <div className="text-[10px] text-gray-500">{muni.code}</div>
                       </td>
                       <td className="px-4 py-3 text-right text-gray-900">{muni.camerasCount}</td>
                       <td className="px-4 py-3 text-right text-mt-green-600 font-medium">
