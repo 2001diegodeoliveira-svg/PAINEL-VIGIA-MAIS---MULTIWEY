@@ -10,16 +10,24 @@ router.get('/', (req: Request, res: Response) => {
   const limit = parseInt(req.query.limit as string, 10) || 50;
   const municipalityCode = req.query.municipality as string | undefined;
 
-  let cameras = dashboardService.getCameras({ page, limit }).data;
-
   if (municipalityCode) {
-    cameras = dashboardService.getCamerasByMunicipality(municipalityCode);
+    const cameras = dashboardService.getCamerasByMunicipality(municipalityCode);
+    res.json({
+      success: true,
+      data: cameras,
+      total: cameras.length,
+    });
+    return;
   }
 
+  const result = dashboardService.getCameras({ page, limit });
   res.json({
     success: true,
-    data: cameras,
-    total: cameras.length,
+    data: result.data,
+    total: result.total,
+    page: result.page,
+    limit: result.limit,
+    totalPages: result.totalPages,
   });
 });
 
