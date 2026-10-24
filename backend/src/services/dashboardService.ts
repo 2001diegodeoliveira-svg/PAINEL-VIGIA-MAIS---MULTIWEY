@@ -8,17 +8,61 @@ import type {
   PaginatedResponse,
 } from '../types';
 import { getMockDashboardData } from '../data';
+import { fetchCamerasFromSinfra } from './sinfraService';
 
 export class DashboardService {
   private data: DashboardData;
+  private sinfraCameras: Camera[] = [];
+  private sinfraLoaded = false;
 
   constructor() {
     this.data = getMockDashboardData();
+    this.loadSinfraCameras();
+  }
+
+  private async loadSinfraCameras(): Promise<void> {
+    try {
+      this.sinfraCameras = await fetchCamerasFromSinfra();
+      this.sinfraLoaded = true;
+      console.log(
+        `[DashboardService] ${this.sinfraCameras.length} câmeras carregadas da API SINFRA`,
+      );
+    } catch (error) {
+      console.error(
+        '[DashboardService] Falha ao carregar câmeras SINFRA:',
+        error,
+      );
+      this.sinfraCameras = [];
+    }
+  }
+
+  private getAllCameras(): Camera[] {
+    return [...this.data.cameras, ...this.sinfraCameras];
   }
 
   getDashboardData(): DashboardData {
+    const allCameras = this.getAllCameras();
+    const camerasOnline = allCameras.filter(
+      (c) => c.status === 'online',
+    ).length;
+    const camerasOffline = allCameras.filter(
+      (c) => c.status === 'offline',
+    ).length;
+
+    const kpis: KPIData = {
+      ...this.data.kpis,
+      camerasActive: camerasOnline,
+      camerasTotal: allCameras.length,
+      camerasAvailability: Math.round(
+        (camerasOnline / allCameras.length) * 1000,
+      ) / 10,
+      camerasOfflineNow: camerasOffline,
+    };
+
     return {
       ...this.data,
+      kpis,
+      cameras: allCameras,
       lastUpdated: new Date().toISOString(),
     };
   }
@@ -28,23 +72,24 @@ export class DashboardService {
     const limit = Math.min(100, Math.max(1, query.limit ?? 50));
     const start = (page - 1) * limit;
     const end = start + limit;
-    const data = this.data.cameras.slice(start, end);
+    const allCameras = this.getAllCameras();
+    const data = allCameras.slice(start, end);
 
     return {
       data,
-      total: this.data.cameras.length,
+      total: allCameras.length,
       page,
       limit,
-      totalPages: Math.ceil(this.data.cameras.length / limit),
+      totalPages: Math.ceil(allCameras.length / limit),
     };
   }
 
   getCameraById(id: string): Camera | undefined {
-    return this.data.cameras.find((c) => c.id === id);
+    return this.getAllCameras().find((c) => c.id === id);
   }
 
   getCamerasByMunicipality(municipalityCode: string): Camera[] {
-    return this.data.cameras.filter(
+    return this.getAllCameras().filter(
       (c) => c.municipalityCode === municipalityCode,
     );
   }
@@ -58,7 +103,23 @@ export class DashboardService {
   }
 
   getKPIs(): KPIData {
-    return this.data.kpis;
+    const allCameras = this.getAllCameras();
+    const camerasOnline = allCameras.filter(
+      (c) => c.status === 'online',
+    ).length;
+    const camerasOffline = allCameras.filter(
+      (c) => c.status === 'offline',
+    ).length;
+
+    return {
+      ...this.data.kpis,
+      camerasActive: camerasOnline,
+      camerasTotal: allCameras.length,
+      camerasAvailability: Math.round(
+        (camerasOnline / allCameras.length) * 1000,
+      ) / 10,
+      camerasOfflineNow: camerasOffline,
+    };
   }
 
   getActions(query: PaginationQuery): PaginatedResponse<Action> {
@@ -114,6 +175,18 @@ export class DashboardService {
         geometry: m.geometry,
       })),
     };
+  }
+
+  async refreshSinfraCameras(): Promise<void> {
+    await this.loadSinfraCameras();
+  }
+
+  isSinfraLoaded(): boolean {
+    return this.sinfraLoaded;
+  }
+
+  getSinfraCameraCount(): number {
+    return this.sinfraCameras.length;
   }
 }
 
