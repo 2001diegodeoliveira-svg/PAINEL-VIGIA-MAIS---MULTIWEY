@@ -133,7 +133,10 @@ export class DashboardApiService {
   private baseUrl: string;
   private useMock: boolean;
 
-  constructor(baseUrl = 'https://mapas.sinfra.mt.gov.br/api', useMock = true) {
+  constructor(
+    baseUrl = (import.meta.env.VITE_API_BASE_URL as string) || 'http://localhost:4000/api',
+    useMock = (import.meta.env.VITE_USE_MOCK_DATA as string) === 'true',
+  ) {
     this.baseUrl = baseUrl;
     this.useMock = useMock;
   }
