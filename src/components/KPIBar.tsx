@@ -6,18 +6,24 @@ export function KPIBar() {
 
   if (isLoading && !kpis) {
     return (
-      <div className="grid grid-cols-4 gap-4 md:gap-6 p-4 md:p-6 bg-white border-b border-gray-200 animate-pulse">
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="bg-gray-100 rounded-lg h-24 md:h-32" />
-        ))}
+      <div className="bg-white border-b border-gray-100 px-4 md:px-6 py-3 md:py-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="bg-gray-100 rounded-xl h-20 md:h-24 animate-pulse" />
+          ))}
+        </div>
       </div>
     );
   }
 
   if (!kpis) return null;
 
-  const availabilityClass = kpis.camerasAvailability >= 95 ? 'text-mt-green-600' : 
-                            kpis.camerasAvailability >= 85 ? 'text-vigia-amber-600' : 'text-vigia-red-600';
+  const availabilityClass =
+    kpis.camerasAvailability >= 95
+      ? 'text-mt-green-600 bg-mt-green-50 border-mt-green-100'
+      : kpis.camerasAvailability >= 85
+      ? 'text-vigia-amber-600 bg-vigia-amber-50 border-vigia-amber-100'
+      : 'text-vigia-red-600 bg-vigia-red-50 border-vigia-red-100';
 
   const kpiItems = [
     {
@@ -27,77 +33,89 @@ export function KPIBar() {
       subClass: availabilityClass,
       icon: '📷',
       color: 'mt-blue',
+      gradient: 'from-mt-blue-500 to-mt-blue-600',
     },
     {
       label: 'Municípios Atendidos',
       value: `${kpis.municipalitiesAttended} de ${kpis.municipalitiesTotal}`,
-      subValue: `${formatPercent((kpis.municipalitiesAttended / kpis.municipalitiesTotal) * 100)} cobertura`,
-      subClass: 'text-mt-green-600',
+      subValue: `${formatPercent(
+        (kpis.municipalitiesAttended / kpis.municipalitiesTotal) * 100,
+      )} cobertura`,
+      subClass: 'text-mt-green-600 bg-mt-green-50 border-mt-green-100',
       icon: '🏙️',
       color: 'mt-green',
+      gradient: 'from-mt-green-500 to-mt-green-600',
     },
     {
       label: 'Ações no Mês / Ano',
       value: `${formatNumber(kpis.actionsMonth)} / ${formatNumber(kpis.actionsYear)}`,
       subValue: 'Mês atual / Acumulado',
-      subClass: 'text-mt-blue-600',
+      subClass: 'text-mt-blue-600 bg-mt-blue-50 border-mt-blue-100',
       icon: '🎯',
       color: 'vigia-amber',
+      gradient: 'from-vigia-amber-500 to-vigia-amber-600',
     },
     {
       label: 'Câmeras Offline Agora',
       value: formatNumber(kpis.camerasOfflineNow),
       subValue: 'Requer atenção imediata',
-      subClass: kpis.camerasOfflineNow > 0 ? 'text-vigia-red-600 font-semibold' : 'text-mt-green-600',
+      subClass:
+        kpis.camerasOfflineNow > 0
+          ? 'text-vigia-red-600 font-semibold bg-vigia-red-50 border-vigia-red-100'
+          : 'text-mt-green-600 bg-mt-green-50 border-mt-green-100',
       icon: '⚠️',
       color: 'vigia-red',
       alert: kpis.camerasOfflineNow > 0,
+      gradient: 'from-vigia-red-500 to-vigia-red-600',
     },
   ];
 
   return (
-    <div className="bg-white border-b border-gray-200 shadow-sm">
+    <div className="bg-white border-b border-gray-100">
       <div className="max-w-full mx-auto px-4 md:px-6 py-3 md:py-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {kpiItems.map((item, index) => (
             <div
               key={index}
-              className={`relative p-3 md:p-4 rounded-xl border-2 transition-all duration-300 ${
-                item.color === 'mt-blue' ? 'border-mt-blue-200 bg-mt-blue-50' :
-                item.color === 'mt-green' ? 'border-mt-green-200 bg-mt-green-50' :
-                item.color === 'vigia-amber' ? 'border-vigia-amber-200 bg-vigia-amber-50' :
-                'border-vigia-red-200 bg-vigia-red-50'
-              } ${item.alert ? 'animate-pulse ring-2 ring-vigia-red-300' : ''}`}
+              className={`relative p-3 rounded-xl border transition-all duration-300 ${
+                item.alert
+                  ? 'animate-pulse ring-2 ring-vigia-red-300 border-vigia-red-200 bg-vigia-red-50'
+                  : `border-${item.color}-100 bg-${item.color}-50`
+              }`}
             >
+              <div className="absolute top-3 right-3">
+                <span className="text-2xl" aria-hidden="true">{item.icon}</span>
+              </div>
               <div className="flex items-start justify-between">
-                <div className="flex items-center gap-2 md:gap-3">
-                  <span className="text-2xl md:text-3xl" aria-hidden="true">{item.icon}</span>
-                  <div>
-                    <p className="text-xs md:text-sm font-medium text-gray-600 uppercase tracking-wide">
-                      {item.label}
-                    </p>
-                    <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 tabular-nums">
-                      {item.value}
-                    </p>
-                  </div>
-                </div>
-                <div className="text-right hidden md:block">
-                  <p className={`text-sm md:text-base font-medium ${item.subClass}`}>
+                <div>
+                  <p className="text-[10px] md:text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
+                    {item.label}
+                  </p>
+                  <p className="text-2xl md:text-3xl font-bold text-gray-900 tabular-nums leading-tight">
+                    {item.value}
+                  </p>
+                  <p className={`text-xs font-medium mt-1 ${item.subClass}`}>
                     {item.subValue}
                   </p>
                 </div>
-              </div>
-              <div className="mt-2 md:mt-3 text-sm md:text-base font-medium {item.subClass} hidden md:block">
-                {item.subValue}
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center opacity-60">
+                  <span className="text-[10px]">{item.icon}</span>
+                </div>
               </div>
             </div>
           ))}
         </div>
-        
-        <div className="mt-2 md:mt-3 flex items-center justify-between text-xs text-gray-500">
-          <span>Atualizado: {lastFetch ? new Date(lastFetch).toLocaleTimeString('pt-BR') : '—'}</span>
+
+        <div className="mt-3 flex items-center justify-between text-[10px] md:text-xs text-gray-500">
           <span className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-mt-green-500 animate-pulse" aria-hidden="true"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-mt-green-500 animate-pulse" />
+            Atualizado{' '}
+            {lastFetch
+              ? new Date(lastFetch).toLocaleTimeString('pt-BR')
+              : '—'}
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-mt-green-500 animate-pulse" />
             Auto-refresh ativo
           </span>
         </div>

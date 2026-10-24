@@ -10,15 +10,15 @@ const MT_CENTER: [number, number] = [-56.0974, -15.5961];
 const MT_ZOOM = 5.5;
 
 const MUNICIPALITY_COLORS = {
-  with_vigia: '#1e40af',
+  with_vigia: '#1e3a8a',
   implementing: '#d97706',
   no_coverage: '#991b1b',
 };
 
 const CAMERA_COLORS = {
-  online: '#22c55e',
-  offline: '#ef4444',
-  maintenance: '#f59e0b',
+  online: '#16a34a',
+  offline: '#dc2626',
+  maintenance: '#d97706',
 };
 
 export function MapView() {
@@ -57,6 +57,8 @@ export function MapView() {
       center: MT_CENTER,
       zoom: MT_ZOOM,
       attributionControl: false,
+      touchZoomRotate: true,
+      scrollZoom: false,
     });
 
     map.current.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
@@ -77,7 +79,7 @@ export function MapView() {
   const addMunicipalityLayer = () => {
     if (!map.current) return;
 
-    const features = municipalities.map(m => ({
+    const features = municipalities.map((m) => ({
       type: 'Feature' as const,
       properties: {
         code: m.code,
@@ -109,7 +111,7 @@ export function MapView() {
           'no_coverage', MUNICIPALITY_COLORS.no_coverage,
           '#6b7280',
         ],
-        'fill-opacity': 0.6,
+        'fill-opacity': 0.55,
         'fill-outline-color': '#ffffff',
       },
     });
@@ -133,7 +135,7 @@ export function MapView() {
       paint: {
         'fill-color': '#ffffff',
         'fill-opacity': 0.3,
-        'fill-outline-color': '#3b82f6',
+        'fill-outline-color': '#2563eb',
       },
     });
 
@@ -143,7 +145,7 @@ export function MapView() {
       source: 'municipalities',
       filter: ['==', 'code', ''],
       paint: {
-        'fill-color': '#3b82f6',
+        'fill-color': '#2563eb',
         'fill-opacity': 0.4,
         'fill-outline-color': '#1d4ed8',
       },
@@ -154,8 +156,8 @@ export function MapView() {
     if (!map.current) return;
 
     const cameraFeatures = cameras
-      .filter(c => c.status !== 'offline' || viewMode === 'internal')
-      .map(c => ({
+      .filter((c) => c.status !== 'offline' || viewMode === 'internal')
+      .map((c) => ({
         type: 'Feature' as const,
         properties: {
           id: c.id,
@@ -191,13 +193,7 @@ export function MapView() {
           '#f59e0b', 10,
           '#ef4444', 50,
         ],
-        'circle-radius': [
-          'step',
-          ['get', 'point_count'],
-          20, 0,
-          30, 10,
-          40, 50,
-        ],
+        'circle-radius': ['step', ['get', 'point_count'], 20, 10, 30, 50, 40],
         'circle-stroke-width': 2,
         'circle-stroke-color': '#ffffff',
       },
@@ -212,6 +208,9 @@ export function MapView() {
         'text-field': '{point_count_abbreviated}',
         'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
         'text-size': 12,
+      },
+      paint: {
+        'text-color': '#ffffff',
       },
     });
 
@@ -229,14 +228,7 @@ export function MapView() {
           'maintenance', CAMERA_COLORS.maintenance,
           '#6b7280',
         ],
-        'circle-radius': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          5, 4,
-          10, 8,
-          15, 12,
-        ],
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 4, 10, 8, 15, 12],
         'circle-stroke-width': 2,
         'circle-stroke-color': '#ffffff',
       },
@@ -248,8 +240,8 @@ export function MapView() {
       source: 'cameras',
       filter: ['==', 'id', ''],
       paint: {
-        'circle-color': '#3b82f6',
-        'circle-radius': 16,
+        'circle-color': '#2563eb',
+        'circle-radius': 18,
         'circle-stroke-width': 3,
         'circle-stroke-color': '#ffffff',
       },
@@ -260,8 +252,8 @@ export function MapView() {
     if (!map.current) return;
 
     const cameraFeatures = cameras
-      .filter(c => c.status !== 'offline' || viewMode === 'internal')
-      .map(c => ({
+      .filter((c) => c.status !== 'offline' || viewMode === 'internal')
+      .map((c) => ({
         type: 'Feature' as const,
         properties: {
           id: c.id,
@@ -303,7 +295,7 @@ export function MapView() {
 
     if (selectedCamera) {
       map.current.setFilter('camera-selected', ['==', 'id', selectedCamera]);
-      const camera = cameras.find(c => c.id === selectedCamera);
+      const camera = cameras.find((c) => c.id === selectedCamera);
       if (camera) {
         map.current.flyTo({ center: [camera.longitude, camera.latitude], zoom: 14 });
       }
@@ -347,24 +339,24 @@ export function MapView() {
   }, [isLoaded, handleMapClick, handleMapMouseMove]);
 
   const displayMunicipality = hoveredMunicipality || selectedMunicipality;
-  const municipality = municipalities.find(m => m.code === displayMunicipality);
+  const municipality = municipalities.find((m) => m.code === displayMunicipality);
 
   return (
     <div className="relative h-full w-full bg-gray-100">
       <div ref={mapContainer} className="absolute inset-0" aria-label="Mapa de Mato Grosso com municípios e câmeras" />
-      
+
       {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-mt-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-gray-600">Carregando mapa...</p>
+            <div className="w-10 h-10 border-4 border-mt-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-gray-600 text-sm">Carregando mapa...</p>
           </div>
         </div>
       )}
 
       {municipality && (
-        <div className="absolute top-4 right-4 z-20 max-w-sm md:max-w-md bg-white rounded-xl shadow-lg border p-4 animate-fade-in">
-          <div className="flex items-start justify-between mb-3">
+        <div className="absolute top-4 right-4 z-20 max-w-sm md:max-w-md bg-white rounded-xl shadow-xl border border-gray-100 p-5 animate-fade-in">
+          <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="text-lg font-bold text-gray-900">{municipality.name}</h3>
               <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium mt-1 ${getStatusColor(municipality.status)}`}>
@@ -373,25 +365,25 @@ export function MapView() {
             </div>
             <button
               onClick={() => setSelectedMunicipality(null)}
-              className="text-gray-400 hover:text-gray-600 p-1"
+              className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Fechar detalhes do município"
             >
               ✕
             </button>
           </div>
-          
-          <div className="grid grid-cols-3 gap-3 mb-3">
-            <div className="bg-gray-50 rounded-lg p-3 text-center">
+
+          <div className="grid grid-cols-3 gap-3 mb-4">
+            <div className="bg-mt-blue-50 rounded-lg p-3 text-center border border-mt-blue-100">
               <p className="text-2xl font-bold text-mt-blue-600">{municipality.camerasCount}</p>
-              <p className="text-xs text-gray-600">Total Câmeras</p>
+              <p className="text-[10px] text-gray-500 uppercase">Total Câmeras</p>
             </div>
-            <div className="bg-gray-50 rounded-lg p-3 text-center">
+            <div className="bg-mt-green-50 rounded-lg p-3 text-center border border-mt-green-100">
               <p className="text-2xl font-bold text-mt-green-600">{municipality.camerasOnline}</p>
-              <p className="text-xs text-gray-600">Online</p>
+              <p className="text-[10px] text-gray-500 uppercase">Online</p>
             </div>
-            <div className="bg-gray-50 rounded-lg p-3 text-center">
+            <div className="bg-vigia-red-50 rounded-lg p-3 text-center border border-vigia-red-100">
               <p className="text-2xl font-bold text-vigia-red-600">{municipality.camerasOffline}</p>
-              <p className="text-xs text-gray-600">Offline</p>
+              <p className="text-[10px] text-gray-500 uppercase">Offline</p>
             </div>
           </div>
 
@@ -406,19 +398,26 @@ export function MapView() {
               </p>
             )}
           </div>
+
+          <div className="mt-3 pt-3 border-t border-gray-50">
+            <p className="text-[10px] text-gray-400 uppercase font-medium mb-2">População</p>
+            <p className="text-lg font-bold text-gray-900 tabular-nums">
+              {municipality.population?.toLocaleString('pt-BR') || '—'}
+            </p>
+          </div>
         </div>
       )}
 
-      <div className="absolute bottom-4 left-4 z-20 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border p-3 text-xs text-gray-600 font-mono">
-        <div className="flex items-center gap-2 mb-1">
+      <div className="absolute bottom-4 left-4 z-20 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-100 p-3 text-[10px] text-gray-600 font-mono">
+        <div className="flex items-center gap-2 mb-1.5">
           <span className="w-3 h-3 rounded-full" style={{ backgroundColor: MUNICIPALITY_COLORS.with_vigia }}></span>
           Com Vigia Mais
         </div>
-        <div className="flex items-center gap-2 mb-1">
+        <div className="flex items-center gap-2 mb-1.5">
           <span className="w-3 h-3 rounded-full" style={{ backgroundColor: MUNICIPALITY_COLORS.implementing }}></span>
           Em Implantação
         </div>
-        <div className="flex items-center gap-2 mb-1">
+        <div className="flex items-center gap-2 mb-1.5">
           <span className="w-3 h-3 rounded-full" style={{ backgroundColor: MUNICIPALITY_COLORS.no_coverage }}></span>
           Sem Cobertura
         </div>
