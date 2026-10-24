@@ -18,23 +18,29 @@
   --color-mt-blue-900: #0c4a6e;
   --color-mt-blue-950: #082f49;
 
-  /* Gradiente azul primário */
-  --color-blue-gradient-start: #0ea5e9;
-  --color-blue-gradient-end: #0369a1;
+  /* Cores verde e vermelho para status */
+  --color-mt-green-500: #22c55e;
+  --color-mt-green-600: #16a34a;
+  --color-vigia-red-500: #ef4444;
+  --color-vigia-red-600: #dc2626;
+  --color-vigia-amber-500: #f59e0b;
 }
 
 @layer base {
   * {
-    @apply border-gray-200;
+    border-color: #e2e8f0;
   }
 
   html, body, #root {
-    @apply h-full w-full m-0 p-0 overflow-hidden;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
     font-family: var(--font-sans);
-    background: #f8fafc;
+    background-color: #f8fafc;
   }
 
-  /* Seleção de texto azul */
   ::selection {
     background-color: #bae6fd;
     color: #0c4a6e;
@@ -126,11 +132,17 @@
 
   /* Glassmorphism */
   .glass-panel {
-    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   }
 
   .glass-card {
-    @apply bg-white/60 backdrop-blur-sm border border-white/30 shadow-md;
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
   /* Gradiente azul */
@@ -178,8 +190,7 @@
 
   .btn-blue:focus {
     outline: none;
-    ring: 2px;
-    ring-color: #bae6fd;
+    box-shadow: 0 0 0 2px #bae6fd;
   }
 
   .btn-blue:active {
@@ -193,7 +204,7 @@
     border-radius: 0.5rem;
     font-weight: 500;
     transition: all 0.2s;
-    background: transparent;
+    background-color: transparent;
     cursor: pointer;
   }
 
@@ -204,6 +215,7 @@
 
   .btn-blue-outline:focus {
     outline: none;
+    box-shadow: 0 0 0 2px #bae6fd;
   }
 
   .btn-blue-outline:active {
@@ -234,9 +246,91 @@
 
   .input-blue:focus {
     outline: none;
-    ring: 2px;
-    ring-color: #0ea5e9;
+    box-shadow: 0 0 0 2px #0ea5e9;
     border-color: #0ea5e9;
+  }
+
+  /* Animação de carregamento para cards */
+  .card-loading {
+    background-color: #e2e8f0;
+    border-radius: 0.75rem;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .card-loaded {
+    animation: cardReveal 0.5s ease-out forwards;
+    opacity: 0;
+    animation-delay: 0.1s;
+  }
+
+  @keyframes cardReveal {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    background-color: #e2e8f0;
+    border-radius: 0.25rem;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .skeleton-text {
+    height: 1rem;
+    background-color: #e2e8f0;
+    border-radius: 0.25rem;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    margin-bottom: 0.5rem;
+  }
+
+  .skeleton-text-lg {
+    height: 1.5rem;
+    background-color: #e2e8f0;
+    border-radius: 0.25rem;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    margin-bottom: 0.5rem;
+    width: 75%;
+  }
+
+  /* Badge de status animado */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid #e2e8f0;
+  }
+
+  .status-badge::before {
+    content: '';
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 50%;
+    animation: statusPulse 2s infinite;
+  }
+
+  .status-online::before {
+    background-color: #22c55e;
+    box-shadow: 0 0 8px rgba(22, 163, 74, 0.6);
+  }
+
+  .status-offline::before {
+    background-color: #ef4444;
+    box-shadow: 0 0 8px rgba(220, 38, 38, 0.6);
+  }
+
+  .status-maintenance::before {
+    background-color: #f59e0b;
+    box-shadow: 0 0 8px rgba(217, 119, 6, 0.6);
   }
 }
 
@@ -283,6 +377,10 @@
 
   .icon-flash {
     animation: iconFlash 1s ease-in-out;
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
   }
 
   @keyframes fadeIn {
@@ -426,13 +524,9 @@
     50% { opacity: 0.5; filter: brightness(1.5); }
   }
 
-  @keyframes animate-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  .animate-spin {
-    animation: animate-spin 1s linear infinite;
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
   }
 }
 
@@ -447,7 +541,7 @@
   padding: 0;
   overflow: hidden;
   font-family: var(--font-sans) !important;
-  background: white;
+  background-color: white;
 }
 
 .maplibregl-popup-close-button {
@@ -460,7 +554,7 @@
 }
 
 .maplibregl-ctrl-group {
-  background: white;
+  background-color: white;
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   border: 1px solid #e2e8f0;
@@ -483,78 +577,11 @@
 }
 
 .echarts-tooltip {
-  background: rgba(14, 165, 233, 0.9);
+  background-color: rgba(14, 165, 233, 0.9);
   color: white;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   font-size: 0.875rem;
-  border: none;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-
-/* Animação de carregamento para cards */
-.card-loading {
-  @apply bg-gray-200 rounded-xl animate-pulse;
-}
-
-.card-loaded {
-  animation: cardReveal 0.5s ease-out forwards;
-  opacity: 0;
-  animation-delay: 0.1s;
-}
-
-@keyframes cardReveal {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Skeleton loading */
-.skeleton {
-  @apply bg-gray-200 rounded animate-pulse;
-}
-
-.skeleton-text {
-  @apply h-4 bg-gray-200 rounded animate-pulse mb-2;
-}
-
-.skeleton-text-lg {
-  @apply h-6 bg-gray-200 rounded animate-pulse mb-2 w-3/4;
-}
-
-/* Badge de status animado */
-.status-badge {
-  @apply inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium border;
-}
-
-.status-badge::before {
-  content: '';
-  @apply w-1.5 h-1.5 rounded-full;
-  animation: statusPulse 2s infinite;
-}
-
-.status-online::before {
-  background-color: #4ade80;
-  box-shadow: 0 0 8px rgba(22, 163, 74, 0.6);
-}
-
-.status-offline::before {
-  background-color: #ef4444;
-  box-shadow: 0 0 8px rgba(220, 38, 38, 0.6);
-}
-
-.status-maintenance::before {
-  background-color: #f59e0b;
-  box-shadow: 0 0 8px rgba(217, 119, 6, 0.6);
-}
-
-@keyframes statusPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
