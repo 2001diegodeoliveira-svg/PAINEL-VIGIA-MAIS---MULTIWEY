@@ -16,6 +16,7 @@ import networkRoutes from './routes/network';
 import lprRoutes from './routes/lpr';
 import analyticsRoutes from './routes/analytics';
 import geojsonRoutes from './routes/geojson';
+import sinfraRoutes from './routes/sinfra';
 
 dotenv.config();
 
@@ -55,6 +56,7 @@ export function createApp(): Application {
   app.use(`${apiPrefix}/lpr`, lprRoutes);
   app.use(`${apiPrefix}/analytics`, analyticsRoutes);
   app.use(`${apiPrefix}/geojson`, geojsonRoutes);
+app.use(`${apiPrefix}/sinfra`, sinfraRoutes);
 
   // 404
   app.use(notFoundHandler);
