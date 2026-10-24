@@ -6,7 +6,7 @@ import { usePresentationMode } from '../hooks/usePresentationMode';
 import { useKeyboardNavigation } from '../hooks/useKeyboardNavigation';
 import { KPIBar } from './KPIBar';
 import { MapView } from './MapView';
-import { CameraMosaic } from './CameraMosaic';
+import { CameraLayersPanel } from './CameraLayersPanel';
 import { TimelineFooter } from './TimelineFooter';
 import { ActionsPanel } from './ActionsPanel';
 import { RankingPanel } from './RankingPanel';
@@ -81,7 +81,7 @@ export function DashboardLayout() {
                 <div className="flex-1 md:max-w-[65vw] flex flex-col min-w-0">
                   <MapView />
                 </div>
-                <CameraMosaic />
+                <CameraLayersPanel />
               </div>
             </>
           )}
@@ -156,7 +156,7 @@ export function DashboardLayout() {
           <div className="flex-1 flex flex-col min-w-0 relative">
             <MapView />
           </div>
-          {!isFullScreen && <CameraMosaic />}
+          {!isFullScreen && <CameraLayersPanel />}
         </div>
         {isFullScreen && screenMode === 'actions' && <ActionsPanel />}
         {isFullScreen && screenMode === 'ranking' && <RankingPanel />}
