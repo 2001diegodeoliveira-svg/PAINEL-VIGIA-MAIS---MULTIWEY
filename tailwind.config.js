@@ -1,16 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --color-mt-blue-50: #eff6ff;
-  --color-mt-blue-100: #dbeafe;
-  --color-mt-blue-200: #bfdbfe;
-  --color-mt-blue-300: #93c5fd;
-  --color-mt-blue-400: #60a5fa;
-  --color-mt-blue-500: #3b82f6;
-  --color-mt-blue-600: #2563eb;
-  --color-mt-blue-700: #1d4ed8;
-  --color-mt-blue-800: #1e40af;
-  --color-mt-blue-900: #1e3a8a;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  /* Azul como cor principal - Vigia Mais */
+  --color-mt-blue-50: #f0f9ff;
+  --color-mt-blue-100: #e0f2fe;
+  --color-mt-blue-200: #bae6fd;
+  --color-mt-blue-300: #7dd3fc;
+  --color-mt-blue-400: #38bdf8;
+  --color-mt-blue-500: #0ea5e9;
+  --color-mt-blue-600: #0284c7;
+  --color-mt-blue-700: #0369a1;
+  --color-mt-blue-800: #075985;
+  --color-mt-blue-900: #0c4a6e;
+  --color-mt-blue-950: #082f49;
 
   --color-mt-green-50: #f0fdf4;
   --color-mt-green-100: #dcfce7;

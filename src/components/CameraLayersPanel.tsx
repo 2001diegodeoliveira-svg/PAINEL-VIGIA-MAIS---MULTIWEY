@@ -110,7 +110,7 @@ export function CameraLayersPanel() {
       {/* Cabeçalho com camadas */}
       <div className="flex items-center justify-between p-4 border-b border-gray-50 bg-gray-50/50">
         <div className="flex items-center gap-3">
-          <CameraIcon className="w-5 h-5 text-mt-blue-600" />
+          <CameraIcon className="w-5 h-5 text-blue-600" />
           <div>
             <h2 className="text-lg font-bold text-gray-900">Câmeras por Município</h2>
             <p className="text-[10px] text-gray-500">
@@ -126,7 +126,7 @@ export function CameraLayersPanel() {
               onClick={() => setActiveLayer('all')}
               className={`px-3 py-1.5 text-xs rounded-md transition-all ${
                 activeLayer === 'all'
-                  ? 'bg-white text-mt-blue-600 shadow-sm border border-mt-blue-200'
+                  ? 'bg-white text-blue-600 shadow-sm border border-blue-200'
                   : 'text-gray-500 hover:bg-gray-50'
               }`}
             >
@@ -136,7 +136,7 @@ export function CameraLayersPanel() {
               onClick={() => setActiveLayer('online')}
               className={`px-3 py-1.5 text-xs rounded-md transition-all ${
                 activeLayer === 'online'
-                  ? 'bg-mt-green-50 text-mt-green-700 border border-mt-green-200 shadow-sm'
+                  ? 'bg-green-50 text-green-700 border border-green-200 shadow-sm'
                   : 'text-gray-500 hover:bg-gray-50'
               }`}
             >
@@ -180,13 +180,13 @@ export function CameraLayersPanel() {
                 onClick={() => handleSelectGroup(index)}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all ${
                   isActive
-                    ? 'bg-mt-blue-50 border-mt-blue-200 shadow-sm'
+                    ? 'bg-blue-50 border-blue-200 shadow-sm'
                     : 'border-transparent hover:bg-gray-50 hover:border-gray-200'
                 } ${!hasCameras ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                 disabled={!hasCameras}
               >
                 <div className={`w-2 h-2 rounded-full ${getStatusColor(group.cameras[0]?.status || 'offline').replace('text-', 'bg-').replace('bg-opacity', 'bg-opacity-20')}`} />
-                <span className={`text-xs font-medium truncate max-w-[120px] ${isActive ? 'font-bold text-mt-blue-700' : 'text-gray-600'}`}>
+                <span className={`text-xs font-medium truncate max-w-[120px] ${isActive ? 'font-bold text-blue-700' : 'text-gray-600'}`}>
                   {group.municipality}
                 </span>
                 <span className="text-[10px] font-bold text-gray-400">
@@ -215,7 +215,7 @@ export function CameraLayersPanel() {
         ) : (
           <div className="space-y-3">
             {/* Resumo do município */}
-            <div className="bg-mt-blue-50 border border-mt-blue-100 rounded-xl p-4 mb-4">
+            <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-4">
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">
@@ -226,23 +226,23 @@ export function CameraLayersPanel() {
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-mt-green-50 text-mt-green-700 border border-mt-green-200">
-                    <span className="w-1.5 h-1.5 rounded-full bg-mt-green-500 animate-pulse" />
+                  <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                     {currentGroup.onlineCount} Online
                   </div>
-                  <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-vigia-red-50 text-vigia-red-700 border border-vigia-red-200">
-                    <span className="w-1.5 h-1.5 rounded-full bg-vigia-red-500" />
+                  <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700 border border-red-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
                     {currentGroup.offlineCount} Offline
                   </div>
-                  <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-vigia-amber-50 text-vigia-amber-700 border border-vigia-amber-200">
-                    <span className="w-1.5 h-1.5 rounded-full bg-vigia-amber-500" />
+                  <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
                     {currentGroup.maintenanceCount} Manutenção
                   </div>
                 </div>
               </div>
               <div className="mt-3 h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-mt-blue-600 rounded-full transition-all duration-500"
+                  className="h-full bg-blue-600 rounded-full transition-all duration-500"
                   style={{
                     width:
                       currentGroup.cameras.length > 0
@@ -284,7 +284,7 @@ export function CameraLayersPanel() {
 
                     <div className="absolute top-2 left-2 right-2 flex items-center justify-between">
                       <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(camera.status)}`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${camera.status === 'online' ? 'bg-mt-green-500 animate-pulse' : camera.status === 'maintenance' ? 'bg-vigia-amber-500' : 'bg-vigia-red-500'}`} />
+                        <span className={`w-1.5 h-1.5 rounded-full ${camera.status === 'online' ? 'bg-green-500 animate-pulse' : camera.status === 'maintenance' ? 'bg-amber-500' : 'bg-red-500'}`} />
                         {getStatusLabel(camera.status)}
                       </span>
                       {camera.type === 'lpr' && (
@@ -318,7 +318,7 @@ export function CameraLayersPanel() {
 
       {/* Indicador de rotação automática */}
       {isAutoRotating && filteredGroups.length > 1 && (
-        <div className="absolute bottom-4 right-4 z-20 bg-mt-blue-900/90 backdrop-blur text-white px-3 py-2 rounded-lg text-[10px] shadow-lg">
+        <div className="absolute bottom-4 right-4 z-20 bg-blue-900/90 backdrop-blur text-white px-3 py-2 rounded-lg text-[10px] shadow-lg">
           <RefreshCw className="w-3 h-3 mr-1 animate-spin" />
           Próximo município em 10s
         </div>
@@ -326,3 +326,4 @@ export function CameraLayersPanel() {
     </div>
   );
 }
+

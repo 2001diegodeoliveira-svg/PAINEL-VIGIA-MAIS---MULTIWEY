@@ -28,7 +28,7 @@ export function LPRAlertsPanel() {
     <div className="bg-white border border-gray-100 rounded-xl shadow-sm h-full flex flex-col">
       <div className="flex items-center justify-between p-4 border-b border-gray-50 bg-gray-50/50">
         <div className="flex items-center gap-2">
-          <AlertCircle className="w-5 h-5 text-vigia-red-600" />
+          <AlertCircle className="w-5 h-5 text-red-600" />
           <h2 className="text-lg font-bold text-gray-900">Alertas LPR (Leitura de Placas)</h2>
           {activeAlerts.length > 0 && (
             <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold animate-pulse border border-red-200">
@@ -129,3 +129,4 @@ function renderActiveAlertCard(alert: LPRAlert) {
     </div>
   );
 }
+

@@ -30,30 +30,30 @@ export function BeforeAfterPanel() {
     <div className="bg-white border border-gray-100 rounded-xl shadow-sm h-full flex flex-col">
       <div className="flex items-center justify-between p-4 border-b border-gray-50 bg-gray-50/50">
         <div className="flex items-center gap-2">
-          <Activity className="w-5 h-5 text-mt-blue-600" />
+          <Activity className="w-5 h-5 text-blue-600" />
           <h2 className="text-lg font-bold text-gray-900">Impacto do Vigia Mais</h2>
-          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-mt-green-100 text-mt-green-700 text-xs font-medium">
+          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs font-medium">
             {formatPercent(avgReduction)} redução média
           </span>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4">
-        <div className="bg-mt-blue-50 border-2 border-mt-blue-200 rounded-xl p-5 mb-6">
+        <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-5 mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] text-mt-blue-600 uppercase tracking-wide font-medium mb-1">
+              <p className="text-[10px] text-blue-600 uppercase tracking-wide font-medium mb-1">
                 Redução Média de Ocorrências
               </p>
-              <p className="text-4xl font-bold text-mt-blue-900 tabular-nums">
+              <p className="text-4xl font-bold text-blue-900 tabular-nums">
                 {formatPercent(avgReduction)}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-[10px] text-mt-blue-600 uppercase tracking-wide font-medium mb-1">
+              <p className="text-[10px] text-blue-600 uppercase tracking-wide font-medium mb-1">
                 Municípios Analisados
               </p>
-              <p className="text-2xl font-bold text-mt-blue-900 tabular-nums">{beforeAfter.length}</p>
+              <p className="text-2xl font-bold text-blue-900 tabular-nums">{beforeAfter.length}</p>
             </div>
           </div>
         </div>
@@ -85,11 +85,11 @@ export function BeforeAfterPanel() {
                     <td className="px-4 py-3 text-right text-gray-700 font-mono">
                       {formatNumber(item.beforeInstallation.totalOccurrences)}
                     </td>
-                    <td className="px-4 py-3 text-right text-mt-green-600 font-mono font-medium">
+                    <td className="px-4 py-3 text-right text-green-600 font-mono font-medium">
                       {formatNumber(item.afterInstallation.totalOccurrences)}
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-mt-green-50 text-mt-green-700 border border-mt-green-200`}>
+                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200`}>
                         <TrendingDown className="w-3 h-3" />
                         -{formatPercent(item.reductionPercent)}
                       </span>
@@ -111,11 +111,11 @@ export function BeforeAfterPanel() {
               <span className="text-gray-700 text-[10px]">Antes = ocorrências antes da instalação das câmeras</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-mt-green-500" aria-hidden="true">▼</span>
+              <span className="text-green-500" aria-hidden="true">▼</span>
               <span className="text-gray-700 text-[10px]">Depois = ocorrências após a instalação das câmeras</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-mt-blue-500" aria-hidden="true">📉</span>
+              <span className="text-blue-500" aria-hidden="true">📉</span>
               <span className="text-gray-700 text-[10px]">Redução = percentual de queda nas ocorrências</span>
             </div>
           </div>
@@ -124,3 +124,4 @@ export function BeforeAfterPanel() {
     </div>
   );
 }
+

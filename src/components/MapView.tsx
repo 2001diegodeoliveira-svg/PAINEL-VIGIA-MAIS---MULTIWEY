@@ -348,7 +348,7 @@ export function MapView() {
       {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
           <div className="text-center">
-            <div className="w-10 h-10 border-4 border-mt-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             <p className="text-gray-600 text-sm">Carregando mapa...</p>
           </div>
         </div>
@@ -373,16 +373,16 @@ export function MapView() {
           </div>
 
           <div className="grid grid-cols-3 gap-3 mb-4">
-            <div className="bg-mt-blue-50 rounded-lg p-3 text-center border border-mt-blue-100">
-              <p className="text-2xl font-bold text-mt-blue-600">{municipality.camerasCount}</p>
+            <div className="bg-blue-50 rounded-lg p-3 text-center border border-blue-100">
+              <p className="text-2xl font-bold text-blue-600">{municipality.camerasCount}</p>
               <p className="text-[10px] text-gray-500 uppercase">Total Câmeras</p>
             </div>
-            <div className="bg-mt-green-50 rounded-lg p-3 text-center border border-mt-green-100">
-              <p className="text-2xl font-bold text-mt-green-600">{municipality.camerasOnline}</p>
+            <div className="bg-green-50 rounded-lg p-3 text-center border border-green-100">
+              <p className="text-2xl font-bold text-green-600">{municipality.camerasOnline}</p>
               <p className="text-[10px] text-gray-500 uppercase">Online</p>
             </div>
-            <div className="bg-vigia-red-50 rounded-lg p-3 text-center border border-vigia-red-100">
-              <p className="text-2xl font-bold text-vigia-red-600">{municipality.camerasOffline}</p>
+            <div className="bg-red-50 rounded-lg p-3 text-center border border-red-100">
+              <p className="text-2xl font-bold text-red-600">{municipality.camerasOffline}</p>
               <p className="text-[10px] text-gray-500 uppercase">Offline</p>
             </div>
           </div>
@@ -437,3 +437,4 @@ export function MapView() {
     </div>
   );
 }
+

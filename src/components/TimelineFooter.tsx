@@ -80,7 +80,7 @@ export function TimelineFooter() {
           <div className="flex items-center gap-2 mt-0.5">
             <Icon size={20} strokeWidth={2} />
             {action.isHighlight && (
-              <span className="flex items-center px-2 py-1 text-xs font-medium bg-vigia-amber-100 text-vigia-amber-800 rounded animate-pulse ml-1">
+              <span className="flex items-center px-2 py-1 text-xs font-medium bg-amber-100 text-amber-800 rounded animate-pulse ml-1">
                 ⭐ DESTAQUE
               </span>
             )}
@@ -110,8 +110,8 @@ export function TimelineFooter() {
       <div className="flex items-center justify-between px-4 md:px-6 py-2 bg-gray-50 border-b border-gray-200">
         <div className="flex items-center gap-4">
           <h3 className="text-sm font-bold text-gray-900">Linha do Tempo de Ações</h3>
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-mt-green-100 text-mt-green-800 border border-mt-green-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-mt-green-500 animate-pulse" />
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
             Ao vivo
           </span>
           <button
@@ -125,7 +125,7 @@ export function TimelineFooter() {
         <div className="flex items-center gap-4 text-sm text-gray-600">
           <span>Total: <span className="font-semibold text-gray-900">{actions.length}</span> ações recentes</span>
           <span className="hidden md:inline">|</span>
-          <span>Mês: <span className="font-semibold text-mt-blue-600">{latestMonthCount}</span></span>
+          <span>Mês: <span className="font-semibold text-blue-600">{latestMonthCount}</span></span>
         </div>
       </div>
 
@@ -193,3 +193,4 @@ export function TimelineFooter() {
     </div>
   );
 }
+

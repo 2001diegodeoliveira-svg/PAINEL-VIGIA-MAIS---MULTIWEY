@@ -13,7 +13,7 @@ function CameraTile({ camera, isHighlighted, onClick }: { camera: Camera; isHigh
   return (
     <div
       className={`relative group overflow-hidden rounded-xl border transition-all duration-300 cursor-pointer ${
-        isHighlighted ? 'ring-4 ring-mt-blue-500 scale-[1.02] z-10 shadow-xl' : 'border-gray-100 hover:border-mt-blue-200 hover:shadow-md'
+        isHighlighted ? 'ring-4 ring-blue-500 scale-[1.02] z-10 shadow-xl' : 'border-gray-100 hover:border-blue-200 hover:shadow-md'
       } ${getStatusColor(camera.status).replace('text-', 'border-').replace('bg-', 'bg-opacity-5 ')}`}
       onClick={onClick}
       role="button"
@@ -49,7 +49,7 @@ function CameraTile({ camera, isHighlighted, onClick }: { camera: Camera; isHigh
 
         <div className="absolute top-2 left-2 right-2 flex items-center justify-between">
           <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(camera.status)}`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-mt-green-500 animate-pulse' : camera.status === 'maintenance' ? 'bg-vigia-amber-500' : 'bg-vigia-red-500'}`} />
+            <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-green-500 animate-pulse' : camera.status === 'maintenance' ? 'bg-amber-500' : 'bg-red-500'}`} />
             {getStatusLabel(camera.status)}
           </span>
           {camera.type === 'lpr' && (
@@ -60,7 +60,7 @@ function CameraTile({ camera, isHighlighted, onClick }: { camera: Camera; isHigh
         </div>
 
         {isHighlighted && (
-          <div className="absolute bottom-2 left-2 right-2 bg-mt-blue-600/95 text-white px-3 py-2 rounded-lg text-xs font-medium animate-pulse">
+          <div className="absolute bottom-2 left-2 right-2 bg-blue-600/95 text-white px-3 py-2 rounded-lg text-xs font-medium animate-pulse">
             ⚠ CÂMERA EM DESTAQUE
           </div>
         )}
@@ -121,10 +121,10 @@ export function CameraMosaic() {
     <div className="bg-white border border-gray-100 rounded-xl shadow-sm h-full flex flex-col">
       <div className="flex items-center justify-between p-4 border-b border-gray-50 bg-gray-50/50">
         <div className="flex items-center gap-3">
-          <CameraIcon className="w-5 h-5 text-mt-blue-600" />
+          <CameraIcon className="w-5 h-5 text-blue-600" />
           <h2 className="text-lg font-bold text-gray-900">Câmeras Ao Vivo</h2>
-          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-mt-green-100 text-mt-green-700 border border-mt-green-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-mt-green-500 animate-pulse" />
+          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
             {displayCameras.length} de {onlineCount} online
           </span>
         </div>
@@ -171,3 +171,4 @@ export function CameraMosaic() {
     </div>
   );
 }
+

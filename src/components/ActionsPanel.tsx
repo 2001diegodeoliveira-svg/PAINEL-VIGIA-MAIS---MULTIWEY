@@ -123,7 +123,7 @@ export function ActionsPanel() {
     <div className="bg-white border border-gray-100 rounded-xl shadow-sm h-full flex flex-col">
       <div className="flex items-center justify-between p-4 border-b border-gray-50 bg-gray-50/50">
         <h2 className="text-lg font-bold text-gray-900">Painel de Ações e Resultados</h2>
-        <span className="text-xs font-medium px-2 py-1 rounded-full bg-mt-blue-50 text-mt-blue-700 border border-mt-blue-100">
+        <span className="text-xs font-medium px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">
           {actionStats.avgResponseTime} min resposta
         </span>
       </div>
@@ -145,7 +145,7 @@ export function ActionsPanel() {
                 onClick={() => setActiveTab(tab.id as typeof activeTab)}
                 className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   activeTab === tab.id
-                    ? 'bg-mt-blue-600 text-white shadow-sm'
+                    ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
                 }`}
               >
@@ -164,7 +164,7 @@ export function ActionsPanel() {
               {Object.entries(actionStats.byType).map(([type, count]) => (
                 <div
                   key={type}
-                  className="bg-white border border-gray-100 rounded-xl p-4 hover:shadow-md hover:border-mt-blue-200 transition-all"
+                  className="bg-white border border-gray-100 rounded-xl p-4 hover:shadow-md hover:border-blue-200 transition-all"
                   style={{ borderLeft: `4px solid ${TYPE_COLORS[type]}20` }}
                 >
                   <div className="flex items-center gap-3">
@@ -193,13 +193,13 @@ export function ActionsPanel() {
               ))}
             </div>
 
-            <div className="mt-4 bg-mt-blue-50 border border-mt-blue-100 rounded-xl p-4">
-              <h3 className="font-bold text-mt-blue-800 mb-2 flex items-center gap-2">
-                <Star className="w-5 h-5 text-mt-blue-600" />
+            <div className="mt-4 bg-blue-50 border border-blue-100 rounded-xl p-4">
+              <h3 className="font-bold text-blue-800 mb-2 flex items-center gap-2">
+                <Star className="w-5 h-5 text-blue-600" />
                 Total de Ações Apoiadas pelo Vigia Mais
               </h3>
-              <p className="text-4xl font-bold text-mt-blue-900 tabular-nums">{formatNumber(totalActions)}</p>
-              <p className="text-[10px] text-mt-blue-600 mt-1">Desde o início do programa</p>
+              <p className="text-4xl font-bold text-blue-900 tabular-nums">{formatNumber(totalActions)}</p>
+              <p className="text-[10px] text-blue-600 mt-1">Desde o início do programa</p>
             </div>
           </div>
         )}
@@ -234,7 +234,7 @@ export function ActionsPanel() {
                   <tr key={item.municipality} className="hover:bg-gray-50 transition-colors">
                     <td className="px-3 py-2 font-bold text-gray-400">{index + 1}</td>
                     <td className="px-3 py-2 font-medium text-gray-900">{item.municipality}</td>
-                    <td className="px-3 py-2 text-right font-bold text-mt-blue-600">{formatNumber(item.count)}</td>
+                    <td className="px-3 py-2 text-right font-bold text-blue-600">{formatNumber(item.count)}</td>
                     <td className="px-3 py-2 text-right text-gray-500">
                       {totalActions > 0 ? ((item.count / totalActions) * 100).toFixed(1) : 0}%
                     </td>
@@ -247,37 +247,37 @@ export function ActionsPanel() {
 
         {activeTab === 'highlighted' && actionStats.highlightedCase && (
           <div className="space-y-4">
-            <div className="bg-gradient-to-r from-vigia-amber-50 to-vigia-amber-100 border-2 border-vigia-amber-200 rounded-xl p-6">
+            <div className="bg-gradient-to-r from-amber-50 to-amber-100 border-2 border-amber-200 rounded-xl p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg flex items-center justify-center text-3xl" style={{ backgroundColor: 'rgba(217, 119, 6, 0.1)', color: '#d97706' }}>
                     {getActionTypeIcon(actionStats.highlightedCase.type)}
                   </div>
                   <div>
-                    <p className="text-[10px] text-vigia-amber-700 font-medium uppercase tracking-wide">Caso em Destaque</p>
-                    <p className="text-xl font-bold text-vigia-amber-900">{actionStats.highlightedCase.typeLabel}</p>
+                    <p className="text-[10px] text-amber-700 font-medium uppercase tracking-wide">Caso em Destaque</p>
+                    <p className="text-xl font-bold text-amber-900">{actionStats.highlightedCase.typeLabel}</p>
                   </div>
                 </div>
-                <span className="px-3 py-1 bg-vigia-amber-300 text-vigia-amber-900 rounded-full text-[10px] font-medium animate-pulse">
+                <span className="px-3 py-1 bg-amber-300 text-amber-900 rounded-full text-[10px] font-medium animate-pulse">
                   ⭐ DESTAQUE
                 </span>
               </div>
               <p className="text-lg text-gray-800 mb-4">{actionStats.highlightedCase.description}</p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-[10px]">
                 <div>
-                  <p className="text-vigia-amber-700 font-medium">Município</p>
+                  <p className="text-amber-700 font-medium">Município</p>
                   <p className="font-bold text-gray-900">{actionStats.highlightedCase.municipality}</p>
                 </div>
                 <div>
-                  <p className="text-vigia-amber-700 font-medium">Data/Hora</p>
+                  <p className="text-amber-700 font-medium">Data/Hora</p>
                   <p className="font-bold text-gray-900">{new Date(actionStats.highlightedCase.date).toLocaleString('pt-BR')}</p>
                 </div>
                 <div>
-                  <p className="text-vigia-amber-700 font-medium">Câmera</p>
+                  <p className="text-amber-700 font-medium">Câmera</p>
                   <p className="font-bold text-gray-900">{actionStats.highlightedCase.cameraId || '—'}</p>
                 </div>
                 <div>
-                  <p className="text-vigia-amber-700 font-medium">Tempo Resposta</p>
+                  <p className="text-amber-700 font-medium">Tempo Resposta</p>
                   <p className="font-bold text-gray-900">{actionStats.avgResponseTime} min</p>
                 </div>
               </div>
@@ -304,3 +304,4 @@ export function ActionsPanel() {
     </div>
   );
 }
+

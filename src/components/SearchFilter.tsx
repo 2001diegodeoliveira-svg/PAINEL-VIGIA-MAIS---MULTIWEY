@@ -30,7 +30,7 @@ export function SearchFilter() {
           placeholder="Buscar município..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-8 pr-3 py-1.5 text-xs border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-mt-blue-500 w-32 md:w-40 transition-all"
+          className="pl-8 pr-3 py-1.5 text-xs border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 w-32 md:w-40 transition-all"
         />
       </div>
 
@@ -42,7 +42,7 @@ export function SearchFilter() {
             <button
               key={m.code}
               onClick={() => handleMunicipalitySelect(m.code)}
-              className="w-full text-left px-3 py-2 text-xs hover:bg-mt-blue-50 hover:text-mt-blue-700 transition-colors border-b border-gray-50 last:border-0"
+              className="w-full text-left px-3 py-2 text-xs hover:bg-blue-50 hover:text-blue-700 transition-colors border-b border-gray-50 last:border-0"
             >
               {m.name}
             </button>
@@ -52,7 +52,7 @@ export function SearchFilter() {
 
       <button
         onClick={() => setFilterOpen(!filterOpen)}
-        className="p-1.5 text-gray-400 hover:text-mt-blue-600 transition-colors"
+        className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors"
         aria-label="Filtros"
       >
         <FilterIcon className="h-4 w-4" />
@@ -60,3 +60,4 @@ export function SearchFilter() {
     </div>
   );
 }
+

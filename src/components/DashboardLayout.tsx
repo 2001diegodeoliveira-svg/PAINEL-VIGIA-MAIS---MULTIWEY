@@ -36,19 +36,19 @@ export function DashboardLayout() {
   if (isPresentationMode) {
     return (
       <div className="h-screen w-screen bg-gray-50 flex flex-col overflow-hidden">
-        <header className="bg-white border-b border-gray-100 sticky top-0 z-30 h-12 md:h-14 px-4 md:px-6">
+        <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-30 h-12 md:h-14 px-4 md:px-6">
           <div className="flex items-center justify-between h-full">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 animate-slide-down">
               <img
                 src="/logo-vigiamais.png"
                 alt="Vigia Mais MT"
                 className="h-8 md:h-10 w-auto object-contain"
               />
               <div className="hidden md:block">
-                <h1 className="text-sm md:text-base font-bold text-gray-900 tracking-tight">
+                <h1 className="text-sm md:text-base font-bold text-blue-900 tracking-tight">
                   Vigia Mais MT
                 </h1>
-                <p className="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider">
+                <p className="text-[10px] md:text-xs text-blue-600 uppercase tracking-wider">
                   Sala de Situação
                 </p>
               </div>
@@ -56,12 +56,13 @@ export function DashboardLayout() {
             <img
               src="/logo-multiway.png"
               alt="Multiway"
-              className="h-8 md:h-10 w-auto object-contain hidden md:block"
+              className="h-8 md:h-10 w-auto object-contain hidden md:block animate-fade-in"
+              style={animationDelay(0.2)}
             />
             <div className="flex items-center gap-2">
               <button
                 onClick={() => useAppStore.getState().setPresentationMode(false)}
-                className="px-3 py-1.5 text-xs font-medium bg-mt-blue-600 text-white rounded-md hover:bg-mt-blue-700 focus:outline-none focus:ring-2 focus:ring-mt-blue-500 transition-colors"
+                className="btn-blue-outline animate-bounce-in"
               >
                 Sair Apresentação
               </button>
@@ -93,20 +94,18 @@ export function DashboardLayout() {
   }
 
   return (
-    <div className="h-screen w-screen bg-gray-50 flex flex-col overflow-hidden">
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-30 h-12 md:h-14 px-4 md:px-6">
+    <div className="h-screen w-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 flex flex-col overflow-hidden">
+      <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-30 h-12 md:h-14 px-4 md:px-6 shadow-sm">
         <div className="flex items-center justify-between h-full">
-          <div className="flex items-center gap-3">
-            <img
-              src="/logo-vigiamais.png"
-              alt="Vigia Mais MT"
-              className="h-8 md:h-10 w-auto object-contain"
-            />
+          <div className="flex items-center gap-3 animate-slide-down">
+            <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-blue icon-bounce">
+              VM
+            </div>
             <div className="hidden md:block">
-              <h1 className="text-sm md:text-base font-bold text-gray-900 tracking-tight">
+              <h1 className="text-sm md:text-base font-bold text-blue-900 tracking-tight">
                 Vigia Mais MT
               </h1>
-              <p className="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider">
+              <p className="text-[10px] md:text-xs text-blue-600 uppercase tracking-wider">
                 Sala de Situação - Monitoramento Inteligente
               </p>
             </div>
@@ -114,7 +113,8 @@ export function DashboardLayout() {
           <img
             src="/logo-multiway.png"
             alt="Multiway"
-            className="h-8 md:h-10 w-auto object-contain hidden md:block"
+            className="h-8 md:h-10 w-auto object-contain hidden md:block animate-fade-in"
+            style={animationDelay(0.2)}
           />
           <div className="flex items-center gap-2">
             <SearchFilter />
@@ -125,7 +125,7 @@ export function DashboardLayout() {
                   .getState()
                   .setViewMode(e.target.value as 'public' | 'internal')
               }
-              className="px-2.5 py-1.5 text-xs border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-mt-blue-500"
+              className="input-blue text-xs"
               aria-label="Modo de visualização"
             >
               <option value="public">Público</option>
@@ -135,7 +135,7 @@ export function DashboardLayout() {
               onClick={() =>
                 useAppStore.getState().setPresentationMode(!isPresentationMode)
               }
-              className="px-3 py-1.5 text-xs font-medium bg-mt-blue-600 text-white rounded-md hover:bg-mt-blue-700 focus:outline-none focus:ring-1 focus:ring-mt-blue-500 transition-colors"
+              className="btn-blue animate-bounce-in"
             >
               {isPresentationMode ? 'Sair Apresentação' : 'Modo Apresentação'}
             </button>
@@ -164,7 +164,7 @@ export function DashboardLayout() {
         <div className="absolute top-4 right-4 z-40 flex flex-col gap-2">
           <button
             onClick={() => toggleFullscreen()}
-            className="p-2 bg-white/90 backdrop-blur border border-gray-200 rounded-lg text-gray-600 hover:bg-white hover:text-gray-900 shadow-sm transition-all"
+            className="p-2 bg-white/90 backdrop-blur border border-gray-200 rounded-xl text-blue-600 hover:bg-blue-600 hover:text-white shadow-blue transition-all duration-200 active:scale-95"
             aria-label={isFullscreen ? 'Sair tela cheia' : 'Tela cheia'}
           >
             {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
@@ -176,3 +176,8 @@ export function DashboardLayout() {
     </div>
   );
 }
+
+function animationDelay(seconds: number) {
+  return { animationDelay: `${seconds}s` } as React.CSSProperties;
+}
+

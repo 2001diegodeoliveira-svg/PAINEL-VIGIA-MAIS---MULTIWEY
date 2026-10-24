@@ -23,9 +23,9 @@ export function CoverageSuggestionsPanel() {
   if (!coverageSuggestions || coverageSuggestions.length === 0) return null;
 
   const priorityColors: Record<string, string> = {
-    high: 'bg-vigia-red-50 text-vigia-red-700 border border-vigia-red-200',
-    medium: 'bg-vigia-amber-50 text-vigia-amber-700 border border-vigia-amber-200',
-    low: 'bg-mt-green-50 text-mt-green-700 border border-mt-green-200',
+    high: 'bg-red-50 text-red-700 border border-red-200',
+    medium: 'bg-amber-50 text-amber-700 border border-amber-200',
+    low: 'bg-green-50 text-green-700 border border-green-200',
   };
 
   const priorityLabels: Record<string, string> = {
@@ -44,9 +44,9 @@ export function CoverageSuggestionsPanel() {
     <div className="bg-white border border-gray-100 rounded-xl shadow-sm h-full flex flex-col">
       <div className="flex items-center justify-between p-4 border-b border-gray-50 bg-gray-50/50">
         <div className="flex items-center gap-2">
-          <MapPin className="w-5 h-5 text-mt-blue-600" />
+          <MapPin className="w-5 h-5 text-blue-600" />
           <h2 className="text-lg font-bold text-gray-900">Sugestões de Expansão de Cobertura</h2>
-          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-mt-blue-100 text-mt-blue-700 text-xs font-medium">
+          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-medium">
             {coverageSuggestions.length} áreas sugeridas
           </span>
         </div>
@@ -100,3 +100,4 @@ export function CoverageSuggestionsPanel() {
     </div>
   );
 }
+
