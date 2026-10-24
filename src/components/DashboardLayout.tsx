@@ -61,14 +61,21 @@ export function DashboardLayout() {
         <div className="max-w-full mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between h-14 md:h-16">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-mt-blue-600 flex items-center justify-center text-white font-bold text-lg">
-                VM
-              </div>
-              <div>
+              <img
+                src="/logo-vigiamais.png"
+                alt="Vigia Mais MT"
+                className="h-10 md:h-12 w-auto object-contain"
+              />
+              <div className="hidden md:block">
                 <h1 className="text-xl md:text-2xl font-bold text-gray-900">Vigia Mais MT</h1>
                 <p className="text-xs text-gray-500">Sala de Situação - Monitoramento Inteligente</p>
               </div>
             </div>
+            <img
+              src="/logo-multiway.png"
+              alt="Multiway"
+              className="h-10 md:h-12 w-auto object-contain"
+            />
             <div className="flex items-center gap-3">
               <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-lg text-sm">
                 <span className="w-2 h-2 rounded-full bg-mt-green-500 animate-pulse" />
